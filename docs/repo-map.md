@@ -1,0 +1,47 @@
+# Repository Map
+
+- `AGENTS.md`: repository-wide invariants and operating rules for agents.
+- `.agent/PLANS.md`: ExecPlan template and planning rules.
+- `.codex/`: repo-local Codex configuration notes. No config exists yet.
+- `docs/`: durable product and engineering context.
+- `docs/decisions/`: Architecture Decision Records.
+- `docs/plans/active/`: active ExecPlans.
+- `docs/plans/completed/`: completed ExecPlans.
+- `android/`: native Kotlin/Compose Android client.
+  - `settings.gradle.kts`, `build.gradle.kts`, `gradle/`, `gradlew*`: Android Gradle project and wrapper.
+  - `app/build.gradle.kts`: single Android application module using Compose, Room, Coroutines, and OkHttp.
+  - `app/src/main/AndroidManifest.xml`: app, Internet, and media permissions.
+  - `app/src/debug/`: debug-only cleartext network security configuration.
+  - `app/src/main/java/dev/localsync/android/`: application entry point and dependency container.
+  - `core/`: platform-neutral Android-side models and small utilities.
+  - `data/media/`: MediaStore scanner and `ContentResolver` byte-source abstractions.
+  - `data/database/`: Room metadata/state entities, DAOs, and database.
+  - `data/network/`: OkHttp client for the generic protocol, pairing-only fingerprint observation, pinned TLS, scoped logical-host DNS, auth header injection, and server fingerprint helpers.
+  - `data/discovery/`: bounded `NsdManager` discovery, ephemeral candidates, scoped multicast-lock policy, and pinned trusted-locator verification.
+  - `data/repository/`: manual Backup Now coordination.
+  - `data/security/`: paired credential storage boundary, including Android Keystore-backed storage.
+  - `data/settings/`: development server URL and local installation namespace persistence.
+  - `ui/home/`: basic Compose Home, Media, and Developer Settings UI.
+  - `app/src/test/`: Android JVM tests.
+- `desktop/backend/`: Python/FastAPI desktop backend foundation.
+  - `pyproject.toml`: backend package metadata and tool configuration.
+  - `app/main.py`: FastAPI app factory and app object.
+  - `app/api/v1/`: versioned API routes for health, pairing completion, file check, legacy file upload, and resumable upload sessions.
+  - `app/cli/`: local administrative commands for pairing sessions and paired-device revocation.
+  - `app/models/`: SQLAlchemy models for `stored_files`, `upload_sessions`, `paired_devices`, and `pairing_sessions`.
+  - `app/repositories/`: persistence helpers for stored files, upload sessions, paired devices, and pairing sessions.
+  - `app/services/`: transfer coordination, upload-session resume logic, verification, pairing, and device authentication services.
+  - `app/services/discovery.py`: lifecycle-managed DNS-SD/mDNS advertisement boundary.
+  - `app/core/`: configuration, structured errors, logging setup, credential helpers, and local TLS identity generation.
+  - `app/db/`: SQLAlchemy base and session helpers.
+  - `app/storage/`: local filesystem storage safety primitives.
+  - `migrations/`: Alembic migration environment, baseline, stored-files, upload-sessions, and pairing/device migrations.
+  - `tests/`: backend pytest suite.
+- `desktop/frontend/`: future desktop UI.
+- `tools/`: development and test utilities.
+- `tools/fake_phone/`: generic fake-device client for protocol testing.
+  - `fake_phone/`: CLI, scanner, hashing, TLS fingerprint checks, pairing, credential config, and resumable authenticated transfer client.
+  - `tests/`: fake-client pytest suite.
+- `scripts/`: future developer automation.
+
+Keep platform-independent concepts in docs and shared contracts. Put platform-specific implementation details under the relevant platform directory.

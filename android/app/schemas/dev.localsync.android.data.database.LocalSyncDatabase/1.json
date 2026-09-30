@@ -1,0 +1,205 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "bc3fbf9cca4e5db82499e2b3ca94b33c",
+    "entities": [
+      {
+        "tableName": "media_items",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `mediaStoreId` INTEGER NOT NULL, `volumeName` TEXT NOT NULL, `contentUri` TEXT NOT NULL, `displayName` TEXT NOT NULL, `size` INTEGER NOT NULL, `mimeType` TEXT, `mediaType` TEXT NOT NULL, `dateAdded` INTEGER, `dateModified` INTEGER, `dateTaken` INTEGER, `lastSeenAt` INTEGER NOT NULL, `isMissing` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mediaStoreId",
+            "columnName": "mediaStoreId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "volumeName",
+            "columnName": "volumeName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "contentUri",
+            "columnName": "contentUri",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "displayName",
+            "columnName": "displayName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "size",
+            "columnName": "size",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mimeType",
+            "columnName": "mimeType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "mediaType",
+            "columnName": "mediaType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateAdded",
+            "columnName": "dateAdded",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "dateModified",
+            "columnName": "dateModified",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "dateTaken",
+            "columnName": "dateTaken",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "lastSeenAt",
+            "columnName": "lastSeenAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isMissing",
+            "columnName": "isMissing",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_media_items_volumeName_mediaStoreId",
+            "unique": true,
+            "columnNames": [
+              "volumeName",
+              "mediaStoreId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_media_items_volumeName_mediaStoreId` ON `${TABLE_NAME}` (`volumeName`, `mediaStoreId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "backup_states",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `mediaItemId` INTEGER NOT NULL, `contentSha256` TEXT, `hashedSize` INTEGER, `status` TEXT NOT NULL, `storedFileId` TEXT, `storedPath` TEXT, `lastAttemptAt` INTEGER, `lastSuccessfulBackupAt` INTEGER, `failureCode` TEXT, `failureMessage` TEXT, FOREIGN KEY(`mediaItemId`) REFERENCES `media_items`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mediaItemId",
+            "columnName": "mediaItemId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "contentSha256",
+            "columnName": "contentSha256",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "hashedSize",
+            "columnName": "hashedSize",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "storedFileId",
+            "columnName": "storedFileId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "storedPath",
+            "columnName": "storedPath",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "lastAttemptAt",
+            "columnName": "lastAttemptAt",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "lastSuccessfulBackupAt",
+            "columnName": "lastSuccessfulBackupAt",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "failureCode",
+            "columnName": "failureCode",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "failureMessage",
+            "columnName": "failureMessage",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_backup_states_mediaItemId",
+            "unique": true,
+            "columnNames": [
+              "mediaItemId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_backup_states_mediaItemId` ON `${TABLE_NAME}` (`mediaItemId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "media_items",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "mediaItemId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bc3fbf9cca4e5db82499e2b3ca94b33c')"
+    ]
+  }
+}
